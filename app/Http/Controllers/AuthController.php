@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 use Validator;
 
 
@@ -33,8 +36,9 @@ class AuthController extends Controller
         $user->password = bcrypt(request()->password);
         $user->phone = request()->phone;
         $user->address = request()->address;
-        $user->role =request()->role;
+        $user->role = request()->role;
         $user->date_of_birth = request()->date_of_birth;
+        $user->username = request()->username;
         $user->save();
 
         return response()->json($user, 201);
@@ -62,7 +66,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function me()
+    public function userDetail()
     {
         return response()->json(auth()->user());
     }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('role');
             $table->string('date_of_birth');
+            $table->string('username');
             $table->rememberToken();
             $table->timestamps();
         });
