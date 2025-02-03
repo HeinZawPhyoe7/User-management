@@ -28,24 +28,19 @@ class PostController extends Controller
      */
     public function createPost(Request $request)
     {
-        $images = [];
-
-        if ($request->images) {
-
-            foreach ($request->file('images') as $file) {
-
-                $newName = "post_images" . uniqid() . "." . $file->extension();
-
-                $file->storeAs('public/postimage', $newName);
-
-                $images[] = $newName;
-            }
-        }
+        
+        // dd($request->file('images'));
+        // if ($request->hasFile('images')) {
+        //     $newimage = $request->file('images')->store('images','public');
+        // }
 
         $post = new Post();
         $post->title = $request->title;
         $post->description = $request->description;
-        $post->images = json_encode($images);
+        if ($request->hasFile('images')) {
+            $newimage = $request->file('images')->store('images','public');
+        }
+        $post->images = json_encode([$newimage]);
         $post->save();
         return  response()->json([
             'message' => 'success',
@@ -59,6 +54,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(string $id)
     {
         //
