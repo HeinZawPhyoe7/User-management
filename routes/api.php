@@ -17,6 +17,6 @@ Route::group([
     Route::post('/user-detail', [AuthController::class, 'userDetail'])->middleware('auth:api')->name('user-detail');
 
     // postcontroller api
-    Route::get('post-all',[PostController::class,'index'])->middleware('auth:api')->name('post-all');
+    Route::get('post-all',[PostController::class,'index'])->name('post-all');
     Route::post('/create-post', [PostController::class, 'createPost'])->middleware('auth:api')->name('create-post');
 });
