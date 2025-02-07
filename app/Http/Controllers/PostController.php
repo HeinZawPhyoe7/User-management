@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -76,9 +77,37 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updatePost(Request $request, string $id)
     {
-        //
+        $post = Post::find($id);
+    
+        $post->title = $request->title;
+        $post->description = $request->description;
+    
+        $existingImages = $post->images ? json_decode($post->images, true) : [];
+    
+        if ($request->hasFile('images')) {
+            foreach ($existingImages as $oldImage) {
+                Storage::delete('public/' . $oldImage);
+            }
+    
+            $newImages = [];
+            foreach ($request->file('images') as $image) {
+                $imagePath = $image->store('images', 'public'); 
+                $newImages[] = $imagePath; 
+            }
+    
+            $post->images = json_encode($newImages);
+        }
+    
+        $post->save();
+    
+        return response()->json([
+            'message' => 'Post updated successfully!',
+            'title' => $post->title,
+            'description' => $post->description,
+            'images' => json_decode($post->images, true)
+        ]);
     }
 
     /**
@@ -86,6 +115,21 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::find($id);
+        if ($post) {
+            $post -> delete();
+        } 
+
+        return response()->json([
+            'message' => 'post is deleted'
+        ]);
+        
+        
     }
 }
+
+    
+    
+
+
+

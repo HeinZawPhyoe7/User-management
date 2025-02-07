@@ -18,5 +18,7 @@ Route::group([
 
     // postcontroller api
     Route::get('post-all',[PostController::class,'index'])->name('post-all');
-    Route::post('/create-post', [PostController::class, 'createPost'])->middleware('auth:api')->name('create-post');
+    Route::post('/create-post', [PostController::class, 'createPost'])->name('create-post');
+    Route::delete('/delete-post/{id}',[PostController::class, 'destroy'])->name('delete-post');
+    Route::post('/update-post/{id}',[PostController::class, 'updatePost'])->name('update-post');
 });
