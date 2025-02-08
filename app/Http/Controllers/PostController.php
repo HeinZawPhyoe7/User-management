@@ -45,8 +45,10 @@ class PostController extends Controller
         $post->description = $request->description;
         if ($request->hasFile('images')) {
             $newimage = $request->file('images')->store('images','public');
+            $imagedata = Storage::disk('public')->get($newimage);
+            $base64 = base64_encode($imagedata);
         }
-        $post->images = json_encode([$newimage]);
+        $post->images = $base64;
         $post->save();
         return  response()->json([
             'message' => 'success',
