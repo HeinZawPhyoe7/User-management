@@ -108,4 +108,16 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60 * 24
         ]);
     }
+
+    public function userAll()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'users' => $users,
+            'message' => 'success'
+        ]);
+    }
 }
+
+

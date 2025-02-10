@@ -15,6 +15,7 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api')->name('logout');
     Route::post('/refresh', [AuthController::class, 'refresh'])->middleware('auth:api')->name('refresh');
     Route::post('/user-detail', [AuthController::class, 'userDetail'])->middleware('auth:api')->name('user-detail');
+    Route::get('/user-all',[AuthController::class,'userAll'])->name('user-all');
 
     // postcontroller api
     Route::get('post-all',[PostController::class,'index'])->name('post-all');
